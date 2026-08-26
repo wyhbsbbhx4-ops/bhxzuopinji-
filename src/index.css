@@ -1,0 +1,514 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-primary: #0b0d14;
+    --bg-secondary: #111420;
+    --bg-card: #141828;
+    --text-primary: #f4f6fb;
+    --text-secondary: #9aa1b4;
+    --accent-cobalt: #2644f4;
+    --accent-electric: #3b58ff;
+    --accent-spark: #e2f952;
+    --card-border: rgba(255, 255, 255, 0.1);
+  }
+
+  .light-mode {
+    --bg-primary: #e7e9ed;
+    --bg-secondary: #dde0e7;
+    --bg-card: #ffffff;
+    --text-primary: #0a0d14;
+    --text-secondary: #586074;
+    --accent-cobalt: #2644f4;
+    --accent-electric: #2342e8;
+    --accent-spark: #1a37dd;
+    --card-border: rgba(10, 13, 20, 0.12);
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: background-color 0.4s ease, color 0.4s ease;
+  }
+}
+
+.font-display {
+  font-family: 'Syne', sans-serif;
+  letter-spacing: -0.03em;
+}
+
+.font-mono-tag {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.font-condensed {
+  font-family: 'Anton', 'Syne', sans-serif;
+  letter-spacing: -0.02em;
+}
+
+.font-editorial-script {
+  font-family: 'Playfair Display', 'Bodoni Moda', 'Italiana', serif;
+  font-style: italic;
+}
+
+.font-pixel {
+  font-family: 'Press Start 2P', 'Silkscreen', monospace;
+}
+
+.font-pixel-display {
+  font-family: 'Pixelify Sans', 'Press Start 2P', monospace;
+}
+
+/* Retro pixel grid background */
+.bg-retro-pixel-grid {
+  background-color: #1a1528;
+  background-image: 
+    linear-gradient(to right, rgba(147, 112, 219, 0.12) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(147, 112, 219, 0.12) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* Subtle blueprint grid / halftone background */
+.bg-noise {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+  background-size: 12px 12px;
+}
+
+.light-mode .bg-noise {
+  background-image: radial-gradient(rgba(38, 68, 244, 0.08) 1px, transparent 1px);
+  background-size: 12px 12px;
+}
+
+/* Fine architectural grid overlay */
+.bg-blueprint-grid {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+}
+
+.light-mode .bg-blueprint-grid {
+  background-image: 
+    linear-gradient(to right, rgba(38, 68, 244, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(38, 68, 244, 0.06) 1px, transparent 1px);
+}
+
+/* Stippled / halftone equalizer texture matching reference */
+.equalizer-bar-texture {
+  background-color: #2644f4;
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.25) 0,
+    rgba(255, 255, 255, 0.25) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+}
+
+.equalizer-yellow-texture {
+  background-color: #e4f93a;
+  background-image: radial-gradient(rgba(12, 13, 18, 0.4) 1px, transparent 1px),
+    repeating-linear-gradient(
+      45deg,
+      rgba(12, 13, 18, 0.15) 0,
+      rgba(12, 13, 18, 0.15) 1.5px,
+      transparent 1.5px,
+      transparent 3px
+    );
+  background-size: 3px 3px, 100% 100%;
+}
+
+.light-mode .equalizer-bar-texture {
+  background-color: #2644f4;
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.35) 0,
+    rgba(255, 255, 255, 0.35) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+}
+
+/* Tape sticker effect */
+.tape-strip {
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(2px);
+}
+
+.light-mode .tape-strip {
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 1px 4px rgba(38, 68, 244, 0.15);
+}
+
+/* Editorial Blue Glow */
+.glow-blue {
+  text-shadow: 0 0 20px rgba(38, 68, 244, 0.6), 0 0 40px rgba(59, 88, 255, 0.3);
+}
+
+.glow-script {
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 0 30px rgba(38, 68, 244, 0.5);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0b0d14;
+}
+.light-mode ::-webkit-scrollbar-track {
+  background: #e7e9ed;
+}
+::-webkit-scrollbar-thumb {
+  background: #1f273d;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #2644f4;
+}
+
+/* Marquee keyframes */
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: flex;
+  width: 200%;
+  animation: marquee 25s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* =========================
+   AI Robot Assistant Exact Styles
+========================= */
+:root {
+  --blue: #0061F2;
+  --black: #111111;
+  --white: #ffffff;
+}
+
+.ai-assistant {
+  position: fixed;
+  right: 0;
+  bottom: 28px;
+  z-index: 9999;
+  font-family: Inter, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Robot */
+.robot-wrap {
+  position: relative;
+  width: 140px;
+  height: 150px;
+  border: none;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  transform: translateX(68px);
+  transition: transform .55s cubic-bezier(.22, 1, .36, 1);
+}
+
+/* 鼠标靠近，机器人探出来 */
+.robot-wrap:hover,
+.robot-wrap.show-auto-bubble {
+  transform: translateX(20px);
+}
+
+/* 机器人身体 */
+.robot {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 122px;
+  height: 142px;
+  border-radius: 58% 58% 50% 50% / 42% 42% 58% 58%;
+  background: radial-gradient(
+    circle at 30% 20%,
+    #ffffff 0%,
+    #fafcff 45%,
+    #edf4ff 100%
+  );
+  box-shadow:
+    inset -10px -8px 24px rgba(0, 97, 242, .12),
+    0 16px 30px rgba(0, 60, 140, .12);
+  animation: robotFloat 3.4s ease-in-out infinite;
+  transition: transform .35s ease;
+}
+
+/* Hover 果冻感 */
+.robot-wrap:hover .robot {
+  transform: rotate(-4deg) scale(1.025);
+}
+
+/* 蓝色边缘光 */
+.robot::after {
+  content: "";
+  position: absolute;
+  right: 1px;
+  top: 18px;
+  width: 12px;
+  height: 95px;
+  border-radius: 50%;
+  background: rgba(0, 97, 242, .18);
+  filter: blur(8px);
+  pointer-events: none;
+}
+
+/* Eyes */
+.eye {
+  position: absolute;
+  top: 52px;
+  width: 18px;
+  height: 23px;
+  border-radius: 50%;
+  background: #050505;
+  overflow: hidden;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), height 0.2s ease, width 0.2s ease;
+}
+
+.eye-left {
+  left: 35px;
+}
+
+.eye-right {
+  right: 34px;
+}
+
+/* 用户在输入框打字或聚焦时，眼睛产生细微变圆/专注放大反馈 */
+.eye.eye-focused {
+  transform: scale(1.18);
+  box-shadow: 0 0 10px rgba(0, 97, 242, 0.4);
+}
+
+/* 眼球移动层 */
+.pupil {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  transform: translate(0, 0);
+  transition: transform .08s linear;
+}
+
+/* 眼睛高光 */
+.pupil::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 4px;
+  width: 5px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ffffff;
+  opacity: .95;
+}
+
+/* Hover Bubble */
+.hello-bubble {
+  position: absolute;
+  right: 78px;
+  top: 28px;
+  white-space: nowrap;
+  padding: 9px 13px;
+  border-radius: 100px;
+  background: var(--black);
+  color: white;
+  font-size: 12px;
+  font-weight: 500;
+  opacity: 0;
+  transform: translateY(7px) scale(.95);
+  pointer-events: none;
+  transition: .25s ease;
+}
+
+.robot-wrap:hover .hello-bubble {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Floating Animation */
+@keyframes robotFloat {
+  0%, 100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -7px;
+  }
+}
+
+/* AI Panel */
+.ai-panel {
+  position: absolute;
+  right: 32px;
+  bottom: 40px;
+  width: 360px;
+  border: 1px solid rgba(0, 0, 0, .08);
+  border-radius: 26px;
+  background: rgba(255, 255, 255, .96);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  box-shadow: 0 25px 70px rgba(0, 35, 100, .18);
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px) scale(.94);
+  transform-origin: right bottom;
+  transition: .4s cubic-bezier(.22, 1, .36, 1);
+}
+
+/* 打开 */
+.ai-panel.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+/* Header */
+.ai-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 20px 14px;
+}
+
+.ai-title {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .12em;
+  color: #111;
+}
+
+.ai-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 5px;
+  color: #777;
+  font-size: 11px;
+}
+
+.ai-status span {
+  width: 6px;
+  height: 6px;
+  border-radius: 100%;
+  background: var(--blue);
+}
+
+.close-btn {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: #f3f3f3;
+  color: #333;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: .2s;
+}
+
+.close-btn:hover {
+  background: #e8e8e8;
+  transform: rotate(5deg);
+}
+
+/* Content */
+.ai-content {
+  padding: 16px 22px 24px;
+  max-height: 380px;
+  overflow-y: auto;
+}
+
+.ai-content h2 {
+  margin: 13px 0 8px;
+  font-size: 28px;
+  font-weight: 700;
+  color: #111;
+}
+
+.ai-content p {
+  margin: 0;
+  color: #656565;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* 小机器人图标 */
+.robot-small {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  align-items: center;
+  width: 62px;
+  height: 62px;
+  border-radius: 48% 48% 44% 44%;
+  background: linear-gradient(145deg, #fff, #eef4ff);
+  box-shadow:
+    inset -5px -5px 12px rgba(0, 97, 242, .1),
+    0 10px 22px rgba(0, 45, 120, .08);
+}
+
+.small-eye {
+  width: 8px;
+  height: 11px;
+  border-radius: 50%;
+  background: black;
+}
+
+/* Quick Actions */
+.quick-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
+  margin-top: 22px;
+}
+
+.quick-actions button {
+  min-height: 43px;
+  padding: 10px 12px;
+  border: 1px solid #e8e8e8;
+  border-radius: 14px;
+  background: white;
+  color: #222;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.quick-actions button:hover {
+  border-color: var(--blue);
+  background: #f4f8ff;
+  color: var(--blue);
+  transform: translateY(-2px);
+}
+
+/* Input */
+.ai-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px 16px;
+  border-top: 1px solid #ededed;
+  background: #fff;
+}
+
+@media (max-width: 600px) {
+  .ai-panel {
+    width: calc(100vw - 32px);
+    right: 16px;
+  }
+}
+

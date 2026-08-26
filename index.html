@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      // Safeguard against iframe/sandbox environments trying to assign window.fetch
+      try {
+        if (typeof window !== 'undefined') {
+          let _currentFetch = window.fetch ? window.fetch.bind(window) : undefined;
+          Object.defineProperty(window, 'fetch', {
+            get() {
+              return _currentFetch;
+            },
+            set(newFetch) {
+              _currentFetch = newFetch;
+            },
+            configurable: true,
+            enumerable: true,
+          });
+        }
+      } catch (e) {
+        // Fallback gracefully
+      }
+    </script>
+    <title>巴涵笑 // 产品体验设计师 (Product Experience Designer)</title>
+    <meta name="description" content="巴涵笑（BHX）产品体验设计作品集 — 专注UI/UX交互、运营活动游戏化与AIGC视觉探索，以敏锐感知与细节把控塑造有温度的数字产品。" />
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Italiana&family=JetBrains+Mono:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Pixelify+Sans:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600;1,700;1,900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Press+Start+2P&family=Silkscreen:wght@400;700&family=Syne:wght@600;700;800;900&display=swap" rel="stylesheet">
+  </head>
+  <body class="bg-[#0b0d14] text-white selection:bg-[#2644F4] selection:text-white font-sans antialiased overflow-x-hidden">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
