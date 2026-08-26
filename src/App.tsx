@@ -10,6 +10,7 @@ import { Footer } from './components/Footer';
 import { ProjectDetailPage } from './components/ProjectDetailPage';
 import { IntroLoader } from './components/IntroLoader';
 import { ScrollProgressBar } from './components/ScrollProgressBar';
+import { AIRobotAssistant } from './components/AIRobotAssistant';
 import { Project } from './types';
 import { PROJECTS } from './data/portfolioData';
 
@@ -193,6 +194,11 @@ export default function App() {
           setHasLoadedIntro(false);
         }}
       />
+
+      {/* AI Robot Assistant: only mount after the intro finishes so it never overlays the boot screen */}
+      {hasLoadedIntro && (
+        <AIRobotAssistant onNavigate={handleNavigate} />
+      )}
     </div>
   );
 }
