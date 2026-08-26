@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { audio } from '../utils/audioSynth';
-import { PROJECTS, DESIGNER_INFO } from '../data/portfolioData';
 
 interface AIRobotAssistantProps {
   onNavigate: (sectionId: string) => void;
@@ -56,11 +55,11 @@ export const AIRobotAssistant: React.FC<AIRobotAssistantProps> = ({ onNavigate }
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
-  
+
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [chatHistory]);
-  
+
   const handleToggle = () => {
     audio.playClick(600);
     setShowBubble(false);
@@ -131,6 +130,7 @@ export const AIRobotAssistant: React.FC<AIRobotAssistantProps> = ({ onNavigate }
         ref={robotWrapRef}
         onClick={handleToggle}
         aria-label="打开 AI 助手"
+        style={{ animationFillMode: 'none' }}
       >
         <div className="robot" id="robotBody">
           <div className="robot-antenna" />
