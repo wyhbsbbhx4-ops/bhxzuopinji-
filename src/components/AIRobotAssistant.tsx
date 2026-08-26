@@ -16,24 +16,24 @@ export const AIRobotAssistant: React.FC<AIRobotAssistantProps> = ({ onNavigate }
   const robotWrapRef = useRef<HTMLButtonElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // 用户进入页面 5 秒后自动显示 hello-bubble 气泡，持续 4 秒后自动隐藏（或在交互后更新）
+  // 进入首页后立即让机器人入场，并在短暂延迟后主动打招呼。
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const revealTimer = setTimeout(() => {
       setShowBubble(true);
       audio.playHoverTone(580);
-      
-      // 4 秒后自动隐去气泡
-      const hideTimer = setTimeout(() => {
-        setShowBubble(false);
-      }, 4000);
+    }, 650);
 
-      return () => clearTimeout(hideTimer);
-    }, 5000);
+    const hideTimer = setTimeout(() => {
+      setShowBubble(false);
+    }, 3800);
 
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(revealTimer);
+      clearTimeout(hideTimer);
+    };
   }, []);
 
-  // 眼球跟随鼠标移动（在视口内计算微角度）
+  // 发光 X 眼在面罩内跟随鼠标移动。
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       if (!robotWrapRef.current) return;
@@ -133,35 +133,55 @@ export const AIRobotAssistant: React.FC<AIRobotAssistantProps> = ({ onNavigate }
         aria-label="打开 AI 助手"
       >
         <div className="robot" id="robotBody">
-          <div className={`eye eye-left ${isTyping ? 'eye-focused' : ''}`}>
-            <div
-              className="pupil"
-              style={{
-                transform: isTyping 
-                  ? `translate(${pupilPos.x * 0.5}px, ${pupilPos.y * 0.5}px) scale(1.15)`
-                  : `translate(${pupilPos.x}px, ${pupilPos.y}px)`,
-              }}
-            />
+          <div className="robot-antenna" />
+
+          <div className="robot-head">
+            <div className="robot-visor">
+              <div className={`eye eye-left ${isTyping ? 'eye-focused' : ''}`}>
+                <div
+                  className="pupil"
+                  style={{
+                    transform: isTyping
+                      ? `translate(${pupilPos.x * 0.5}px, ${pupilPos.y * 0.5}px) scale(1.12)`
+                      : `translate(${pupilPos.x}px, ${pupilPos.y}px)`,
+                  }}
+                />
+              </div>
+
+              <div className={`eye eye-right ${isTyping ? 'eye-focused' : ''}`}>
+                <div
+                  className="pupil"
+                  style={{
+                    transform: isTyping
+                      ? `translate(${pupilPos.x * 0.5}px, ${pupilPos.y * 0.5}px) scale(1.12)`
+                      : `translate(${pupilPos.x}px, ${pupilPos.y}px)`,
+                  }}
+                />
+              </div>
+            </div>
           </div>
 
-          <div className={`eye eye-right ${isTyping ? 'eye-focused' : ''}`}>
-            <div
-              className="pupil"
-              style={{
-                transform: isTyping
-                  ? `translate(${pupilPos.x * 0.5}px, ${pupilPos.y * 0.5}px) scale(1.15)`
-                  : `translate(${pupilPos.x}px, ${pupilPos.y}px)`,
-              }}
-            />
+          <div className="robot-arm robot-arm-left" />
+          <div className="robot-arm robot-arm-right" />
+
+          <div className="robot-chest">
+            <span className="panel-screw screw-tl" />
+            <span className="panel-screw screw-tr" />
+            <span className="panel-screw screw-bl" />
+            <span className="panel-screw screw-br" />
+            <div className="speaker-grille" />
           </div>
+
+          <div className="robot-stem" />
+          <div className="robot-base" />
         </div>
 
-        {/* 气泡 - 支持 hover 唤起及 5 秒后自动唤起 */}
+        {/* 首页进入后自动唤起一次，同时支持 hover 再次显示 */}
         <div
           className="hello-bubble"
           style={showBubble ? { opacity: 1, transform: 'translateY(0) scale(1)', pointerEvents: 'auto' } : {}}
         >
-          发现我了？
+          嗨，需要我带路吗？
         </div>
       </button>
 
