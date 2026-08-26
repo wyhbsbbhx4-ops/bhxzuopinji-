@@ -186,7 +186,7 @@
 }
 
 /* =========================
-   AI Robot Assistant Exact Styles
+   AI Robot Assistant
 ========================= */
 :root {
   --blue: #0061F2;
@@ -197,133 +197,222 @@
 .ai-assistant {
   position: fixed;
   right: 0;
-  bottom: 28px;
+  bottom: 24px;
   z-index: 9999;
   font-family: Inter, "Helvetica Neue", Arial, sans-serif;
 }
 
-/* Robot */
 .robot-wrap {
   position: relative;
-  width: 140px;
-  height: 150px;
+  width: 184px;
+  height: 214px;
   border: none;
   padding: 0;
   background: transparent;
   cursor: pointer;
-  transform: translateX(68px);
-  transition: transform .55s cubic-bezier(.22, 1, .36, 1);
+  transform: translateX(34px);
+  animation: robotEntrance .72s cubic-bezier(.2, .9, .2, 1) both;
+  transition: transform .5s cubic-bezier(.22, 1, .36, 1);
 }
 
-/* 鼠标靠近，机器人探出来 */
 .robot-wrap:hover,
 .robot-wrap.show-auto-bubble {
-  transform: translateX(20px);
+  transform: translateX(10px);
 }
 
-/* 机器人身体 */
 .robot {
   position: absolute;
-  right: 0;
+  right: 8px;
   bottom: 0;
-  width: 122px;
-  height: 142px;
-  border-radius: 58% 58% 50% 50% / 42% 42% 58% 58%;
-  background: radial-gradient(
-    circle at 30% 20%,
-    #ffffff 0%,
-    #fafcff 45%,
-    #edf4ff 100%
-  );
-  box-shadow:
-    inset -10px -8px 24px rgba(0, 97, 242, .12),
-    0 16px 30px rgba(0, 60, 140, .12);
-  animation: robotFloat 3.4s ease-in-out infinite;
+  width: 150px;
+  height: 204px;
+  animation: robotFloat 3.8s ease-in-out infinite;
   transition: transform .35s ease;
+  filter: drop-shadow(0 18px 24px rgba(0, 0, 0, .25));
 }
 
-/* Hover 果冻感 */
 .robot-wrap:hover .robot {
-  transform: rotate(-4deg) scale(1.025);
+  transform: translateY(-2px) rotate(-1.5deg) scale(1.02);
 }
 
-/* 蓝色边缘光 */
-.robot::after {
-  content: "";
+.robot-antenna {
   position: absolute;
-  right: 1px;
-  top: 18px;
-  width: 12px;
-  height: 95px;
-  border-radius: 50%;
-  background: rgba(0, 97, 242, .18);
-  filter: blur(8px);
-  pointer-events: none;
+  top: 0;
+  left: 68px;
+  width: 18px;
+  height: 28px;
+  border-radius: 7px 7px 3px 3px;
+  background: linear-gradient(90deg, #868686 0%, #d6d6d6 45%, #8d8d8d 100%);
+  box-shadow: inset 0 0 5px rgba(255,255,255,.28);
 }
 
-/* Eyes */
+.robot-head {
+  position: absolute;
+  top: 21px;
+  left: 17px;
+  width: 116px;
+  height: 82px;
+  border-radius: 28px 28px 17px 17px;
+  background: linear-gradient(145deg, #33363a 0%, #151719 55%, #26282b 100%);
+  box-shadow:
+    inset 0 5px 9px rgba(255,255,255,.08),
+    inset 0 -5px 8px rgba(0,0,0,.55),
+    0 5px 10px rgba(0,0,0,.24);
+  z-index: 5;
+}
+
+.robot-visor {
+  position: absolute;
+  left: 11px;
+  top: 19px;
+  width: 94px;
+  height: 46px;
+  border-radius: 23px;
+  background: linear-gradient(180deg, #111315 0%, #050607 100%);
+  border: 2px solid #36383b;
+  box-shadow:
+    inset 0 0 12px rgba(255,255,255,.04),
+    inset 0 -8px 14px rgba(0,0,0,.65),
+    0 1px 0 rgba(255,255,255,.05);
+  overflow: hidden;
+}
+
 .eye {
   position: absolute;
-  top: 52px;
-  width: 18px;
-  height: 23px;
-  border-radius: 50%;
-  background: #050505;
-  overflow: hidden;
-  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), height 0.2s ease, width 0.2s ease;
+  top: 13px;
+  width: 20px;
+  height: 20px;
+  transition: transform .2s ease, filter .2s ease;
 }
 
-.eye-left {
-  left: 35px;
-}
+.eye-left { left: 18px; }
+.eye-right { right: 18px; }
 
-.eye-right {
-  right: 34px;
-}
-
-/* 用户在输入框打字或聚焦时，眼睛产生细微变圆/专注放大反馈 */
 .eye.eye-focused {
-  transform: scale(1.18);
-  box-shadow: 0 0 10px rgba(0, 97, 242, 0.4);
+  transform: scale(1.12);
+  filter: brightness(1.25);
 }
 
-/* 眼球移动层 */
 .pupil {
   position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: inherit;
-  transform: translate(0, 0);
+  inset: 0;
   transition: transform .08s linear;
 }
 
-/* 眼睛高光 */
+.pupil::before,
 .pupil::after {
   content: "";
   position: absolute;
-  left: 5px;
-  top: 4px;
-  width: 5px;
-  height: 7px;
-  border-radius: 50%;
-  background: #ffffff;
-  opacity: .95;
+  left: 8px;
+  top: 2px;
+  width: 4px;
+  height: 16px;
+  border-radius: 3px;
+  background: #fff;
+  box-shadow:
+    0 0 4px rgba(255,255,255,1),
+    0 0 8px rgba(255,255,255,.85),
+    0 0 12px rgba(210,226,255,.55);
 }
 
-/* Hover Bubble */
+.pupil::before { transform: rotate(45deg); }
+.pupil::after { transform: rotate(-45deg); }
+
+.robot-arm {
+  position: absolute;
+  top: 104px;
+  width: 21px;
+  height: 44px;
+  border-radius: 50% 50% 45% 45%;
+  background: linear-gradient(145deg, #2c2e31, #111315 72%);
+  box-shadow: inset 3px 3px 5px rgba(255,255,255,.05), 0 4px 7px rgba(0,0,0,.25);
+  z-index: 1;
+}
+
+.robot-arm-left { left: 5px; transform: rotate(8deg); }
+.robot-arm-right { right: 5px; transform: rotate(-8deg); }
+
+.robot-chest {
+  position: absolute;
+  top: 92px;
+  left: 29px;
+  width: 92px;
+  height: 91px;
+  border-radius: 9px;
+  background: linear-gradient(145deg, #e4e5e7 0%, #aeb0b4 52%, #d1d2d4 100%);
+  border: 3px solid #161719;
+  box-shadow:
+    inset 0 0 8px rgba(255,255,255,.5),
+    0 4px 8px rgba(0,0,0,.25);
+  z-index: 4;
+}
+
+.panel-screw {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 36%, #8f9398 0 24%, #1f2225 28% 52%, #64686d 56% 100%);
+  box-shadow: inset 0 0 2px rgba(255,255,255,.5);
+}
+
+.screw-tl { left: 6px; top: 6px; }
+.screw-tr { right: 6px; top: 6px; }
+.screw-bl { left: 6px; bottom: 6px; }
+.screw-br { right: 6px; bottom: 6px; }
+
+.speaker-grille {
+  position: absolute;
+  left: 22px;
+  top: 19px;
+  width: 48px;
+  height: 53px;
+  border-radius: 50%;
+  background-image: radial-gradient(circle, #242629 0 2px, transparent 2.3px);
+  background-size: 8px 8px;
+  background-position: center;
+  opacity: .94;
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 0 66%, transparent 69%);
+  mask-image: radial-gradient(ellipse at center, #000 0 66%, transparent 69%);
+}
+
+.robot-stem {
+  position: absolute;
+  left: 72px;
+  top: 181px;
+  width: 7px;
+  height: 13px;
+  background: linear-gradient(90deg, #17191b, #666a70 52%, #151719);
+  z-index: 2;
+}
+
+.robot-base {
+  position: absolute;
+  left: 42px;
+  bottom: 0;
+  width: 68px;
+  height: 17px;
+  border-radius: 50% 50% 38% 38% / 35% 35% 65% 65%;
+  background: linear-gradient(180deg, #303235 0%, #111315 65%, #090a0b 100%);
+  box-shadow:
+    inset 0 2px 4px rgba(255,255,255,.08),
+    0 4px 8px rgba(0,0,0,.35);
+}
+
 .hello-bubble {
   position: absolute;
-  right: 78px;
-  top: 28px;
+  right: 128px;
+  top: 45px;
   white-space: nowrap;
-  padding: 9px 13px;
+  padding: 10px 14px;
   border-radius: 100px;
-  background: var(--black);
+  background: rgba(13, 14, 16, .94);
+  border: 1px solid rgba(255,255,255,.12);
   color: white;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 600;
+  letter-spacing: .01em;
+  box-shadow: 0 10px 24px rgba(0,0,0,.2);
   opacity: 0;
   transform: translateY(7px) scale(.95);
   pointer-events: none;
@@ -335,28 +424,29 @@
   transform: translateY(0) scale(1);
 }
 
-/* Floating Animation */
+@keyframes robotEntrance {
+  0% { transform: translateX(125px); opacity: 0; }
+  60% { opacity: 1; }
+  100% { transform: translateX(34px); opacity: 1; }
+}
+
 @keyframes robotFloat {
-  0%, 100% {
-    translate: 0 0;
-  }
-  50% {
-    translate: 0 -7px;
-  }
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -4px; }
 }
 
 /* AI Panel */
 .ai-panel {
   position: absolute;
-  right: 32px;
-  bottom: 40px;
+  right: 34px;
+  bottom: 54px;
   width: 360px;
-  border: 1px solid rgba(0, 0, 0, .08);
+  border: 1px solid rgba(255, 255, 255, .12);
   border-radius: 26px;
-  background: rgba(255, 255, 255, .96);
+  background: rgba(250, 250, 250, .97);
   backdrop-filter: blur(22px);
   -webkit-backdrop-filter: blur(22px);
-  box-shadow: 0 25px 70px rgba(0, 35, 100, .18);
+  box-shadow: 0 25px 70px rgba(0, 0, 0, .28);
   overflow: hidden;
   opacity: 0;
   visibility: hidden;
@@ -365,14 +455,12 @@
   transition: .4s cubic-bezier(.22, 1, .36, 1);
 }
 
-/* 打开 */
 .ai-panel.active {
   opacity: 1;
   visibility: visible;
   transform: translateY(0) scale(1);
 }
 
-/* Header */
 .ai-header {
   display: flex;
   align-items: center;
@@ -408,7 +496,7 @@
   height: 36px;
   border: none;
   border-radius: 50%;
-  background: #f3f3f3;
+  background: #f0f0f0;
   color: #333;
   font-size: 22px;
   line-height: 1;
@@ -420,11 +508,10 @@
 }
 
 .close-btn:hover {
-  background: #e8e8e8;
+  background: #e4e4e4;
   transform: rotate(5deg);
 }
 
-/* Content */
 .ai-content {
   padding: 16px 22px 24px;
   max-height: 380px;
@@ -445,29 +532,41 @@
   line-height: 1.7;
 }
 
-/* 小机器人图标 */
 .robot-small {
+  position: relative;
   display: flex;
   justify-content: center;
-  gap: 10px;
+  gap: 13px;
   align-items: center;
   width: 62px;
-  height: 62px;
-  border-radius: 48% 48% 44% 44%;
-  background: linear-gradient(145deg, #fff, #eef4ff);
-  box-shadow:
-    inset -5px -5px 12px rgba(0, 97, 242, .1),
-    0 10px 22px rgba(0, 45, 120, .08);
+  height: 48px;
+  border-radius: 17px;
+  background: linear-gradient(145deg, #33363a, #151719 65%);
+  box-shadow: inset 0 2px 4px rgba(255,255,255,.07), 0 8px 18px rgba(0,0,0,.16);
 }
 
 .small-eye {
-  width: 8px;
-  height: 11px;
-  border-radius: 50%;
-  background: black;
+  position: relative;
+  width: 10px;
+  height: 10px;
 }
 
-/* Quick Actions */
+.small-eye::before,
+.small-eye::after {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 0;
+  width: 2px;
+  height: 10px;
+  border-radius: 2px;
+  background: white;
+  box-shadow: 0 0 5px rgba(255,255,255,.85);
+}
+
+.small-eye::before { transform: rotate(45deg); }
+.small-eye::after { transform: rotate(-45deg); }
+
 .quick-actions {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -495,7 +594,6 @@
   transform: translateY(-2px);
 }
 
-/* Input */
 .ai-input {
   display: flex;
   align-items: center;
@@ -506,9 +604,28 @@
 }
 
 @media (max-width: 600px) {
+  .ai-assistant {
+    bottom: 14px;
+  }
+
+  .robot-wrap {
+    transform: translateX(48px) scale(.88);
+    transform-origin: right bottom;
+  }
+
+  .robot-wrap:hover,
+  .robot-wrap.show-auto-bubble {
+    transform: translateX(18px) scale(.88);
+  }
+
+  .hello-bubble {
+    right: 118px;
+  }
+
   .ai-panel {
+    position: fixed;
     width: calc(100vw - 32px);
     right: 16px;
+    bottom: 22px;
   }
 }
-
