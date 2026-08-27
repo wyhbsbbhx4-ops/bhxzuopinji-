@@ -5,11 +5,17 @@ interface AIRobotAssistantProps {
   onNavigate: (sectionId: string) => void;
 }
 
+type ChatMessage = {
+  role: 'ai' | 'user';
+  text: string;
+  actionId?: string;
+};
+
 export const AIRobotAssistant: React.FC<AIRobotAssistantProps> = ({ onNavigate }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [inputMessage, setInputMessage] = useState('');
   const [pupilPos, setPupilPos] = useState({ x: 0, y: 0 });
-  const [chatHistory, setChatHistory] = useState<Array<{ role: 'ai' | 'user'; text: string; actionId?: string }>>([]);
+  const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
   const [isTyping, setIsTyping] = useState(false);
   const [showBubble, setShowBubble] = useState(false);
   const robotWrapRef = useRef<HTMLButtonElement>(null);
@@ -89,36 +95,66 @@ export const AIRobotAssistant: React.FC<AIRobotAssistantProps> = ({ onNavigate }
     }
   };
 
-  const handleSend = (e: React.FormEvent) => {
+  const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!inputMessage.trim()) return;
 
     const userText = inputMessage.trim();
+    const historyForRequest = chatHistory
+      .filter(item => item.role === 'user' || item.role === 'ai')
+      .slice(-10)
+      .map(item => ({
+        role: item.role === 'ai' ? 'assistant' : 'user',
+        content: item.text,
+      }));
+
     setInputMessage('');
+    setIsTyping(true);
     audio.playClick(650);
-
-    let reply = '感谢提问！你可以点击下方的快速选项，或直接浏览作品集各个版块。';
-    let targetSection = '';
-
-    const lower = userText.toLowerCase();
-    if (lower.includes('经历') || lower.includes('工作') || lower.includes('背景') || lower.includes('简历')) {
-      reply = '巴涵笑曾参与多个大型产品体验升级与重构，具备丰富的中后台及移动端落地经验。';
-      targetSection = 'experience';
-    } else if (lower.includes('项目') || lower.includes('作品') || lower.includes('案例')) {
-      reply = '作品集包含多个完整设计案例，支持分类筛选和深度查看设计过程。';
-      targetSection = 'projects';
-    } else if (lower.includes('联系') || lower.includes('合作') || lower.includes('邮箱') || lower.includes('微信')) {
-      reply = '随时欢迎探讨交流与设计合作！可在页面底部获取联系方式与社交主页。';
-      targetSection = 'contact';
-    } else if (lower.includes('你好') || lower.includes('hi') || lower.includes('hello')) {
-      reply = '你好呀！欢迎来到巴涵笑的作品集，随时可以向我提问~';
-    }
 
     setChatHistory(prev => [
       ...prev,
       { role: 'user', text: userText },
-      { role: 'ai', text: reply, actionId: targetSection || undefined },
     ]);
+
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message: userText,
+          history: historyForRequest,
+        }),
+      });
+
+      const data = await response.json().catch(() => null);
+
+      if (!response.ok) {
+        throw new Error(data?.error || 'AI 服务暂时不可用');
+      }
+
+      const reply = typeof data?.reply === 'string' && data.reply.trim()
+        ? data.reply.trim()
+        : '我刚刚没能生成有效回复，请再试一次。';
+
+      setChatHistory(prev => [
+        ...prev,
+        { role: 'ai', text: reply },
+      ]);
+    } catch (error) {
+      console.error('AI chat request failed:', error);
+      setChatHistory(prev => [
+        ...prev,
+        {
+          role: 'ai',
+          text: '抱歉，我现在暂时连不上 AI 服务。请稍后再试，或者先用上面的快捷入口逛逛作品集。',
+        },
+      ]);
+    } finally {
+      setIsTyping(false);
+    }
   };
 
   return (
@@ -274,7 +310,9 @@ export const AIRobotAssistant: React.FC<AIRobotAssistantProps> = ({ onNavigate }
             type="text"
             value={inputMessage}
             onFocus={() => setIsTyping(true)}
-            onBlur={() => setIsTyping(false)}
+            onBlur={() => {
+              if (!inputMessage) setIsTyping(false);
+            }}
             onChange={(e) => {
               setInputMessage(e.target.value);
               setIsTyping(e.target.value.length > 0);
